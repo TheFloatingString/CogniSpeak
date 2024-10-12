@@ -1,76 +1,11 @@
 import "./globals.css";
 
+import axios from "axios";
 import React, { useRef, useState } from "react";
 
 export default function Upload() {
-  //   let mediaRecorder;
-  //   let audioChunks = [];
-  //   const recordButton = document.getElementById("recordButton");
-  //   const stopButton = document.getElementById("stopButton");
-  //   const pulseRing = document.querySelector(".pulse-ring");
-  //   const audioPlayback = document.getElementById("audioPlayback");
-  //   let audioContext, analyser, dataArray;
-
-  //   // Handle recording functionality
-  //   recordButton.addEventListener("click", async () => {
-  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  //     mediaRecorder = new MediaRecorder(stream);
-  //     audioChunks = [];
-
-  //     mediaRecorder.addEventListener("dataavailable", (event) => {
-  //       audioChunks.push(event.data);
-  //     });
-
-  //     mediaRecorder.addEventListener("stop", () => {
-  //       const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-  //       const audioUrl = URL.createObjectURL(audioBlob);
-  //       audioPlayback.src = audioUrl;
-
-  //       const recordingInput = document.createElement("input");
-  //       recordingInput.type = "hidden";
-  //       recordingInput.name = "recording";
-  //       recordingInput.value = audioUrl;
-  //       document.getElementById("recordForm").appendChild(recordingInput);
-  //     });
-
-  //     audioContext = new AudioContext();
-  //     const source = audioContext.createMediaStreamSource(stream);
-  //     analyser = audioContext.createAnalyser();
-  //     analyser.fftSize = 256;
-  //     const bufferLength = analyser.frequencyBinCount;
-  //     dataArray = new Uint8Array(bufferLength);
-
-  //     source.connect(analyser);
-
-  //     mediaRecorder.start();
-  //     recordButton.disabled = true;
-  //     stopButton.disabled = false;
-
-  //     animatePulse();
-  //   });
-
-  //   stopButton.addEventListener("click", () => {
-  //     mediaRecorder.stop();
-  //     recordButton.disabled = false;
-  //     stopButton.disabled = true;
-  //     cancelAnimationFrame(animationId);
-  //   });
-
-  //   // Animate the pulse based on voice volume
-  //   let animationId;
-  //   function animatePulse() {
-  //     analyser.getByteTimeDomainData(dataArray);
-  //     const amplitude = Math.max(...dataArray) - 128; // Calculate amplitude from data
-
-  //     // Scale the pulse size and reduce opacity based on amplitude
-  //     const scale = 1 + amplitude / 80; // Adjusted for a smoother ripple
-  //     pulseRing.style.transform = `scale(${scale})`;
-  //     pulseRing.style.opacity = 0.7 - amplitude / 255; // Softer fade
-
-  //     animationId = requestAnimationFrame(animatePulse);
-  //   }
-
   const [recordedUrl, setRecordedUrl] = useState("");
+  const [audioBlob, setAudioBlob] = useState(null);
   const mediaStream = useRef(null);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
@@ -89,8 +24,21 @@ export default function Upload() {
       mediaRecorder.current.onstop = () => {
         const recordedBlob = new Blob(chunks.current, { type: "audio/webm" });
         const url = URL.createObjectURL(recordedBlob);
+        console.log(recordedBlob);
+        console.log(chunks);
+        console.log(url);
         setRecordedUrl(url);
         chunks.current = [];
+
+        const blobFile = new File([recordedBlob], "recordedBlob");
+        const formDataAudio = new FormData();
+        formDataAudio.append("audioBlob", recordedBlob);
+        axios({
+          method: "post",
+          url: "http://localhost:8000/upload-audio",
+          data: formDataAudio,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       };
       mediaRecorder.current.start();
       console.log("Start recording.");
@@ -101,6 +49,7 @@ export default function Upload() {
   const stopRecording = () => {
     if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
       mediaRecorder.current.stop();
+      console.log(chunks);
     }
     if (mediaStream.current) {
       mediaStream.current.getTracks().forEach((track) => {
@@ -109,6 +58,33 @@ export default function Upload() {
     }
     console.log(recordedUrl);
     console.log("Stop Recording.");
+
+    var formData = new FormData();
+    formData.append("name", "Bob");
+    console.log(audioBlob);
+    console.log(chunks);
+
+    axios({
+      method: "post",
+      url: "http://localhost:8000/upload-audio",
+      data: formData,
+      headers: { "Content-Type": "mutlipart/form-data" },
+    });
+  };
+
+  const submitForAnalysis = () => {
+    var formData = new FormData();
+    formData.append("name", "Alex");
+
+    console.log(audioBlob);
+    console.log(chunks);
+
+    axios({
+      method: "post",
+      url: "http://localhost:8000/upload-audio",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   };
 
   return (
@@ -191,7 +167,9 @@ export default function Upload() {
           </div>
 
           <audio controls src={recordedUrl} />
-          <button type="submit">Submit for Analysis</button>
+          <button type="submit" onClick={submitForAnalysis}>
+            Submit for Analysis
+          </button>
         </form>
 
         <a href="home.html" class="cta-button">
