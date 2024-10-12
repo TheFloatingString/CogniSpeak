@@ -52,43 +52,48 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-const Home = () => {
+const AudioRecorder = () => {
+  const [recordedUrl, setRecordedUrl] = useState("");
+  const mediaStream = useRef(null);
+  const mediaRecorder = useRef(null);
+  const chunks = useRef([]);
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStream.current = stream;
+      mediaRecorder.current = new MediaRecorder(stream);
+      mediaRecorder.current.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.current.push(e.data);
+        }
+      };
+      mediaRecorder.current.onstop = () => {
+        const recordedBlob = new Blob(chunks.current, { type: "audio/webm" });
+        const url = URL.createObjectURL(recordedBlob);
+        setRecordedUrl(url);
+        chunks.current = [];
+      };
+      mediaRecorder.current.start();
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+    }
+  };
+  const stopRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
+      mediaRecorder.current.stop();
+    }
+    if (mediaStream.current) {
+      mediaStream.current.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+  };
   return (
-    <main>
-      <header>
-        <h1>Dementia Detection Platform</h1>
-        <p>Identify Early Signs of Dementia Using AI Voice Analysis</p>
-      </header>
-
-      <nav>
-        <ul>
-          <li>
-            <a href="home.html">Home</a>
-          </li>
-          <li>
-            <a href="upload.html">Upload</a>
-          </li>
-          <li>
-            <a href="#contact">Contact Us</a>
-          </li>
-        </ul>
-      </nav>
-
-      <section class="hero">
-        <h1>Welcome to Our Dementia Detection Service</h1>
-        <p>
-          Upload your voice recording and let our AI analyze it for early signs
-          of dementia.
-        </p>
-        <a href="upload.html" class="cta-button">
-          Upload Voice Recording
-        </a>
-      </section>
-
-      <footer>
-        <p>&copy; 2024 Dementia Detection Platform. All rights reserved.</p>
-      </footer>
-    </main>
+    <div>
+      <audio controls src={recordedUrl} />
+      <button onClick={startRecording}>Start Recording</button>
+      <button onClick={stopRecording}>Stop Recording</button>
+    </div>
   );
 };
-export default Home;
+export default AudioRecorder;
