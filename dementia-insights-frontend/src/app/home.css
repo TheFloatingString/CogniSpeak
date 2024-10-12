@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Header */
+header {
+  background-color: #1A3A60; /* Deep blue */
+  color: white;
+  text-align: center;
+  padding: 3rem 0;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #ddd;
+}
+
+/* Navigation Bar */
+nav {
+  background-color: #1A3A60; /* Deep blue */
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 12px 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 30px;
+}
+
+nav ul li a:hover {
+  background-color: #00CFC1; /* Aqua hover effect */
+  color: white;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #e2e2e2;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #1A3A60;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.cta-button {
+  background-color: #1A3A60; /* Primary button color */
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #00CFC1; /* Aqua hover effect */
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #1A3A60;
+  color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
