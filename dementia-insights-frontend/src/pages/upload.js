@@ -1,5 +1,7 @@
 import "./globals.css";
 
+import React, { useRef, useState } from "react";
+
 export default function Upload() {
   //   let mediaRecorder;
   //   let audioChunks = [];
@@ -68,6 +70,49 @@ export default function Upload() {
   //     animationId = requestAnimationFrame(animatePulse);
   //   }
 
+  const [recordedUrl, setRecordedUrl] = useState("");
+  const mediaStream = useRef(null);
+  const mediaRecorder = useRef(null);
+  const chunks = useRef([]);
+  const startRecording = async () => {
+    console.log("hi!");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      mediaStream.current = stream;
+      mediaRecorder.current = new MediaRecorder(stream);
+      mediaRecorder.current.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.current.push(e.data);
+        }
+      };
+      mediaRecorder.current.onstop = () => {
+        const recordedBlob = new Blob(chunks.current, { type: "audio/webm" });
+        const url = URL.createObjectURL(recordedBlob);
+        setRecordedUrl(url);
+        chunks.current = [];
+      };
+      mediaRecorder.current.start();
+      console.log("Start recording.");
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+    }
+  };
+  const stopRecording = () => {
+    if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
+      mediaRecorder.current.stop();
+    }
+    if (mediaStream.current) {
+      mediaStream.current.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+    console.log(recordedUrl);
+    console.log("hi!");
+    console.log("Stop Recording.");
+  };
+
   return (
     <main>
       <header>
@@ -125,10 +170,20 @@ export default function Upload() {
 
           <label for="recording">Record Your Voice:</label>
 
-          <button type="button" id="recordButton" class="record-btn">
+          <button
+            type="button"
+            id="recordButton"
+            class="record-btn"
+            onclick={startRecording}
+          >
             Start Recording
           </button>
-          <button type="button" id="stopButton" class="record-btn" disabled>
+          <button
+            type="button"
+            id="stopButton"
+            class="record-btn"
+            onclick={stopRecording}
+          >
             Stop Recording
           </button>
 
@@ -137,7 +192,7 @@ export default function Upload() {
             <div class="pulse-center"></div>
           </div>
 
-          <audio id="audioPlayback" controls></audio>
+          <audio controls src={recordedUrl} />
           <button type="submit">Submit for Analysis</button>
         </form>
 
