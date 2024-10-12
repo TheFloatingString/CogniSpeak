@@ -1,36 +1,89 @@
-from fastapi import FastAPI, UploadFile, File, Form
+import wave
+from io import BytesIO
+
+import librosa
+import numpy as np
+from fastapi import FastAPI, File, Form, Request, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydub import AudioSegment
-from io import BytesIO
+
+from model import predict_audio
 
 app = FastAPI()
 
-@app.post("/upload-audio/")
-async def upload_audio(
-    name: str = Form(...),
-    age: int = Form(...),
-    gender: str = Form(...),
-    file: UploadFile = File(...)
-):
-    try:
+origins = ["*"]
 
-        audio_bytes = await file.read()
-
-
-        audio = AudioSegment.from_wav(BytesIO(audio_bytes))
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-        duration_ms = len(audio)
+# @app.post("/upload-audio/")
+# async def upload_audio(
+#     name: str = Form(...),
+#     age: int = Form(...),
+#     gender: str = Form(...),
+#     file: UploadFile = File(...),
+# ):
+@app.post("/upload-audio")
+async def upload_audio(request: Request):
+    # print(name)
+    # print(age)
+    # print(gender)
+    # print(file)
 
+    # data = await request.json()
+    form = await request.form()
+    file = form.get("audioBlob")
+    print(file)
+    if file is not None:
+        tmp = await file.read()
+        print(type(tmp))
+        print(len(tmp))
 
-        return {
-            "name": name,
-            "age": age,
-            "gender": gender,
-            "duration": duration_ms
-        }
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
+        # Parameters for the WAV file
+        n_channels = 1  # Mono
+        sampwidth = 2  # Sample width in bytes (2 bytes = 16-bit samples)
+        framerate = 48000  # Frame rate (samples per second)
+        n_frames = len(tmp) // sampwidth  # Number of frames
+
+        # Open a WAV file for writing
+        with wave.open("output.wav", "wb") as wav_file:
+            wav_file.setnchannels(n_channels)
+            wav_file.setsampwidth(sampwidth)
+            wav_file.setframerate(framerate)
+            wav_file.writeframes(tmp)
+
+        resp = predict_audio("output.wav")
+        print(f"Prediction: {resp}")
+
+        # sample_rate = 44100
+        # audio_data = tmp
+
+        # mfccs = np.mean(
+        #     librosa.feature.mfcc(y=audio_data, sr=sample_rate, n_mfcc=40).T, axis=0
+        # )
+
+        # print(mfccs)
+
+    # content = await = (form.get("audioBlob").read())
+
+    return "Done"
+
+    # try:
+    #     audio_bytes = await file.read()
+    #     audio = AudioSegment.from_wav(BytesIO(audio_bytes))
+    #     duration_ms = len(audio)
+
+    #     return {"name": name, "age": age, "gender": gender, "duration": duration_ms}
+    # except Exception as e:
+    #     return JSONResponse(content={"error": str(e)}, status_code=400)
+
 
 @app.get("/")
 async def root():

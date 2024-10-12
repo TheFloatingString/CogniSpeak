@@ -1,9 +1,11 @@
 import "./globals.css";
 
+import axios from "axios";
 import React, { useRef, useState } from "react";
 
 export default function Upload() {
   const [recordedUrl, setRecordedUrl] = useState("");
+  const [audioBlob, setAudioBlob] = useState(null);
   const mediaStream = useRef(null);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
@@ -22,8 +24,21 @@ export default function Upload() {
       mediaRecorder.current.onstop = () => {
         const recordedBlob = new Blob(chunks.current, { type: "audio/webm" });
         const url = URL.createObjectURL(recordedBlob);
+        console.log(recordedBlob);
+        console.log(chunks);
+        console.log(url);
         setRecordedUrl(url);
         chunks.current = [];
+
+        const blobFile = new File([recordedBlob], "recordedBlob");
+        const formDataAudio = new FormData();
+        formDataAudio.append("audioBlob", recordedBlob);
+        axios({
+          method: "post",
+          url: "http://localhost:8000/upload-audio",
+          data: formDataAudio,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       };
       mediaRecorder.current.start();
       console.log("Start recording.");
@@ -34,6 +49,7 @@ export default function Upload() {
   const stopRecording = () => {
     if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
       mediaRecorder.current.stop();
+      console.log(chunks);
     }
     if (mediaStream.current) {
       mediaStream.current.getTracks().forEach((track) => {
@@ -42,6 +58,33 @@ export default function Upload() {
     }
     console.log(recordedUrl);
     console.log("Stop Recording.");
+
+    var formData = new FormData();
+    formData.append("name", "Bob");
+    console.log(audioBlob);
+    console.log(chunks);
+
+    axios({
+      method: "post",
+      url: "http://localhost:8000/upload-audio",
+      data: formData,
+      headers: { "Content-Type": "mutlipart/form-data" },
+    });
+  };
+
+  const submitForAnalysis = () => {
+    var formData = new FormData();
+    formData.append("name", "Alex");
+
+    console.log(audioBlob);
+    console.log(chunks);
+
+    axios({
+      method: "post",
+      url: "http://localhost:8000/upload-audio",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   };
 
   return (
@@ -124,7 +167,9 @@ export default function Upload() {
           </div>
 
           <audio controls src={recordedUrl} />
-          <button type="submit">Submit for Analysis</button>
+          <button type="submit" onClick={submitForAnalysis}>
+            Submit for Analysis
+          </button>
         </form>
 
         <a href="home.html" class="cta-button">
