@@ -75,7 +75,6 @@ export default function Upload() {
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
   const startRecording = async () => {
-    console.log("hi!");
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -109,7 +108,6 @@ export default function Upload() {
       });
     }
     console.log(recordedUrl);
-    console.log("hi!");
     console.log("Stop Recording.");
   };
 
@@ -174,7 +172,7 @@ export default function Upload() {
             type="button"
             id="recordButton"
             class="record-btn"
-            onclick={startRecording}
+            onClick={startRecording}
           >
             Start Recording
           </button>
@@ -182,7 +180,7 @@ export default function Upload() {
             type="button"
             id="stopButton"
             class="record-btn"
-            onclick={stopRecording}
+            onClick={stopRecording}
           >
             Stop Recording
           </button>
