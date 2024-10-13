@@ -1,7 +1,9 @@
 import "./globals.css";
 
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import { saveAs } from "file-saver";
+
+import { useRef, useState } from "react";
 
 export default function Upload() {
   const [recordedUrl, setRecordedUrl] = useState("");
@@ -33,6 +35,12 @@ export default function Upload() {
         const blobFile = new File([recordedBlob], "recordedBlob");
         const formDataAudio = new FormData();
         formDataAudio.append("audioBlob", recordedBlob);
+        formDataAudio.append("audioFile", blobFile);
+
+        console.log(blobFile);
+        // saveAs(blobFile, "hackHarvardTest.wav");
+        // fs.writeFileSync("audio.wav", Buffer.from(chunks));
+
         axios({
           method: "post",
           url: "http://localhost:8000/upload-audio",
