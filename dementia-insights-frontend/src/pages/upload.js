@@ -117,6 +117,7 @@ export default function Upload() {
     }).then((resp) => {
       console.log(resp);
       setModelAnswer(resp.data.prediction);
+      //   moreInfos.push({<a href="">Custom plan</a>})
     });
   };
 
@@ -147,6 +148,7 @@ export default function Upload() {
   //   });
 
   let listOfQuestions = [];
+  let moreInfos = [];
 
   for (let i = 0; i < cloudflareResp.questions.length; i++) {
     console.log(i);
@@ -183,8 +185,7 @@ export default function Upload() {
             method="post"
             enctype="multipart/form-data"
           >
-
-    <label for="name">Name:</label>
+            <label for="name">Name:</label>
             <input
               type="text"
               id="name"
@@ -235,7 +236,7 @@ export default function Upload() {
             </div>
 
             <audio controls src={recordedUrl} />
-        {/* 
+            {/* 
 <button type="submit" onClick={submitForAnalysis}>
     Submit for Analysis
 </button> 
@@ -254,9 +255,14 @@ export default function Upload() {
 
           <h2>Results</h2>
           {modelAnswer}
+
+          <a href="https://silent-cats-follow.loca.lt" target="_blank">
+            Custom Therapy
+          </a>
+
+          {moreInfos}
         </section>
       </div>
-
 
       <footer>
         <p>&copy; 2024 Dementia Detection Platform. All rights reserved.</p>
