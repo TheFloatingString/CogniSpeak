@@ -1,7 +1,6 @@
 import "./globals.css";
 
 import axios from "axios";
-import { saveAs } from "file-saver";
 
 import { useRef, useState } from "react";
 
@@ -46,6 +45,9 @@ export default function Upload() {
           url: "http://localhost:8000/upload-audio",
           data: formDataAudio,
           headers: { "Content-Type": "multipart/form-data" },
+        }).then((resp) => {
+          console.log(resp);
+          console.log(resp.data.prediction);
         });
       };
       mediaRecorder.current.start();
