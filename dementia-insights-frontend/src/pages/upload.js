@@ -177,9 +177,11 @@ export default function Upload() {
           </div>
 
           <audio controls src={recordedUrl} />
-          <button type="submit" onClick={submitForAnalysis}>
-            Submit for Analysis
-          </button>
+        {/* 
+<button type="submit" onClick={submitForAnalysis}>
+    Submit for Analysis
+</button> 
+*/}
         </form>
 
         <a href="home.html" class="cta-button">

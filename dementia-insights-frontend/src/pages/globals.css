@@ -8,7 +8,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+nextjs-portal {
+  display: none;
+}
 body {
   font-family: 'Poppins', Arial, sans-serif;
   background-color: #f4f7fc; 
