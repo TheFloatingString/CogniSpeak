@@ -183,7 +183,8 @@ export default function Upload() {
             method="post"
             enctype="multipart/form-data"
           >
-            <label for="name">Name:</label>
+
+    <label for="name">Name:</label>
             <input
               type="text"
               id="name"
@@ -234,9 +235,11 @@ export default function Upload() {
             </div>
 
             <audio controls src={recordedUrl} />
-            <button type="submit" onClick={submitForAnalysis}>
-              Submit for Analysis
-            </button>
+        {/* 
+<button type="submit" onClick={submitForAnalysis}>
+    Submit for Analysis
+</button> 
+*/}
           </form>
 
           <a href="home.html" class="cta-button">
@@ -253,6 +256,7 @@ export default function Upload() {
           {modelAnswer}
         </section>
       </div>
+
 
       <footer>
         <p>&copy; 2024 Dementia Detection Platform. All rights reserved.</p>
