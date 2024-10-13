@@ -165,7 +165,7 @@ export default function Upload() {
       <nav>
         <ul>
           <li>
-            <a href="home.html">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
             <a href="#">Upload</a>
@@ -256,7 +256,7 @@ export default function Upload() {
           <h2>Results</h2>
           {modelAnswer}
 
-          <a href="https://silent-cats-follow.loca.lt" target="_blank">
+          <a href="https://nine-symbols-swim.loca.lt/" target="_blank">
             Custom Therapy
           </a>
 

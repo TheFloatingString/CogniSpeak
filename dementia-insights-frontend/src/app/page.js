@@ -63,10 +63,10 @@ const Home = () => {
       <nav>
         <ul>
           <li>
-            <a href="home.html">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
-            <a href="upload.html">Upload</a>
+            <a href="/upload">Upload</a>
           </li>
           <li>
             <a href="#contact">Contact Us</a>
@@ -80,7 +80,7 @@ const Home = () => {
           Upload your voice recording and let our AI analyze it for early signs
           of dementia.
         </p>
-        <a href="upload.html" class="cta-button">
+        <a href="/upload" class="cta-button">
           Upload Voice Recording
         </a>
       </section>
