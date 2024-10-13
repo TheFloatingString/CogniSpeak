@@ -86,9 +86,9 @@ def predict_audio(file_name):
     features = features.reshape(1, -1)
     prediction = loaded_model.predict(features)
     if prediction[0] == 1:
-        print("The model predicts that the person may have signs of dementia.")
+        return "The model predicts that the person may have signs of dementia."
     else:
-        print(
+        return (
             "The model predicts that the person is unlikely to have signs of dementia."
         )
 
