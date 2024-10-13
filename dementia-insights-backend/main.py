@@ -5,6 +5,9 @@ from fastapi.responses import JSONResponse
 from model import predict_audio
 from pydub import AudioSegment
 
+import requests
+import subprocess
+
 app = FastAPI()
 
 origins = ["*"]
@@ -29,8 +32,16 @@ async def upload_audio(request: Request):
         with open("audiofile.wav", "wb") as f:
             f.write(audio_content)
     prediction = predict_audio(file_name="audiofile.wav")
+    requests.get("http://localhost:8080/api/generate_defang")
 
     return {"prediction": prediction}
+
+
+@app.post("/api/create_custom_webapp")
+async def api_create_custom_webapp(request: Request):
+    data = await request.json()
+    subprocess.run("defang")
+    return {"message": "success"}
 
 
 @app.get("/")
