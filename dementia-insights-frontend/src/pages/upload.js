@@ -42,7 +42,7 @@ export default function Upload() {
 
         axios({
           method: "post",
-          url: "http://localhost:8000/upload-audio",
+          url: "https://e0a8-67-134-206-60.ngrok-free.app/upload-audio",
           data: formDataAudio,
           headers: { "Content-Type": "multipart/form-data" },
         }).then((resp) => {
