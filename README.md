@@ -3,9 +3,9 @@
 ## Overview
 This application is designed to aid in the early detection of dementia by prompting users with 10 carefully selected questions, recording their audio responses, and processing the input through an advanced machine learning model. The model then classifies the response as either "Dementia" or "Non-Dementia." Based on the classification, the app provides personalized therapy plans for the user. The goal is to offer early-stage interventions and targeted therapies to enhance cognitive health and well-being.
 
-<div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/d903f66e-9c97-4e95-92a8-c71d2037f75f" alt="image">
-</div>
+![image](https://github.com/user-attachments/assets/336cf0eb-adf3-4f28-9988-b61461fffe9d)
+
+
 
 
 
@@ -17,6 +17,9 @@ This application is designed to aid in the early detection of dementia by prompt
 - **Customized therapy plans**: Based on the classification, personalized therapy plans are generated and provided to the user.
 - **Secure data management**: All data is processed and protected through Cloudflare AI for secure and efficient delivery.
 
+<div style="text-align: center;">
+  <img src="https://github.com/user-attachments/assets/d903f66e-9c97-4e95-92a8-c71d2037f75f" alt="image">
+</div>
 ## Tech Stack
 - **Frontend**: Built with React for a seamless and responsive user experience.
 - **Backend**: Powered by FastAPI for fast, reliable server-side logic and API communication.
