@@ -1,4 +1,4 @@
-# Dementia Detection and Therapy Recommendation App
+# CogniSpeak: Dementia Detection and Therapy Recommendation App
 
 ## Overview
 This application is designed to aid in the early detection of dementia by prompting users with 10 carefully selected questions, recording their audio responses, and processing the input through an advanced machine learning model. The model then classifies the response as either "Dementia" or "Non-Dementia." Based on the classification, the app provides personalized therapy plans for the user. The goal is to offer early-stage interventions and targeted therapies to enhance cognitive health and well-being.
@@ -44,3 +44,13 @@ To run the app locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-repo/dementia-detection-app.git
+   ```
+   
+2. Run the NextJS server
+
+3. Run the backend `main.py`
+
+
+
+Built at HackHarvard 2024. 
+
