@@ -46,7 +46,7 @@ To run the app locally, follow these steps:
    git clone https://github.com/your-repo/dementia-detection-app.git
    ```
    
-2. Run the NextJS server
+2. Run the NextJS server in `/dementia-insights-frontend` by running `npm run dev`
 
 3. Run the backend `main.py`
 
